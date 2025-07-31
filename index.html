@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Solver & Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Sudoku Solver & Game</h1>
+    </header>
+    <section id="controls">
+        <select name="difficulty" id="difficulty">
+            <option value="custom">Custom</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+        </select>
+        <button id="generate-btn">Generate</button>
+        <button id="validate-btn">Validate</button>
+        <button id="solve-btn">Solve</button>
+        <button id="reset-btn">Reset</button>
+        <span id="timer">⏱ 00:00</span>
+    </section>
+    <section id="board-container">
+        <div id="sudoku-board"></div>
+        <p id="validation-result"></p>
+    </section>
+    <footer>
+        &copy; 2025 Sudoku Solver by Shyam Jee
+    </footer>
+
+    <script src="./script.js"></script>
+</body>
+</html>

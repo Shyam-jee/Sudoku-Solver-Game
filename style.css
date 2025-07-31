@@ -1,0 +1,99 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background: #f4f4f4;
+    color: #333;
+}
+
+header {
+    background: #333;
+    color: #f4f4f4;
+    padding: 10px 0px;
+    font-size: 1.2em;
+}
+
+#controls {
+    margin: 15px auto;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+#controls select,
+#controls button {
+    padding: 8px 14px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    transition: all 0.2s ease-in-out;
+}
+
+#controls select:hover,
+#controls button:hover {
+    background-color: #e2e2e2;
+    border-color: #888;
+}
+
+#controls #timer {
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+    padding: 4px 10px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+}
+
+#sudoku-board {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 1px;
+    justify-content: center;
+    margin: 20px auto;
+    width: 90vw;
+    max-width: 360px;
+}
+
+.cell {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    text-align: center;
+    border: 1px solid #999;
+    font-size: 1.2em;
+    background-color: #fff;
+}
+
+.fixed {
+    background-color: #ddd;
+    font-weight: bold;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 12px 10px;
+    font-size: 14px;
+    z-index: 1000;
+}
+
