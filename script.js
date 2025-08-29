@@ -1,7 +1,7 @@
 const boardContainer=document.getElementById('sudoku-board');
 const generateBtn=document.getElementById('generate-btn');
 const resetBtn=document.getElementById('reset-btn');
-const solveBtn=document.getElementById('solve-btn');
+const hintBtn=document.getElementById('hint-btn');
 const difficultySelect=document.getElementById('difficulty');
 const validateBtn=document.getElementById('validate-btn');
 const validationResult=document.getElementById('validation-result');
@@ -19,6 +19,8 @@ const validationResult=document.getElementById('validation-result');
 // ]
 
 let board=Array.from({length: 9}, () => Array(9).fill(0));
+
+let solvedBoard=Array.from({length: 9}, () => Array(9).fill(0));
 
 let timeInterval=null;
 let secondsElapsed=0;
@@ -70,7 +72,7 @@ const puzzle={
     ]
 }
 
-function createBoard(){
+function createBoard(board){
     boardContainer.innerHTML='';
     for(let row=0;row<9;row++){
         for(let col=0;col<9;col++){
@@ -111,7 +113,9 @@ generateBtn.addEventListener('click', () => {
     validationResult.innerText='';
     const difficulty=difficultySelect.value;
     board=JSON.parse(JSON.stringify(puzzle[difficulty]));
-    createBoard();
+    solvedBoard=JSON.parse(JSON.stringify(puzzle[difficulty]));
+    createBoard(board);
+    solveSudoku(solvedBoard);
     startTimer();
 });
 
@@ -141,26 +145,47 @@ function stopTimer(){
     timeInterval=null;
 }
 
-solveBtn.addEventListener('click', () => {
+hintBtn.addEventListener('click', () => {
     validationResult.innerText='';
-    const difficulty=difficultySelect.value;
-    board=JSON.parse(JSON.stringify(puzzle[difficulty]));
-    solveSudoku(board);
-    createBoard();
-    stopTimer();
+    let hintApplied=false;
+    let finished=true;
+    for(let row=0;row<9;row++)
+    {
+        for(let col=0;col<9;col++)
+        {
+            if(solvedBoard[row][col]!=board[row][col])
+            {
+                hintApplied=true;
+                board[row][col]=solvedBoard[row][col];
+                break;
+            }
+        }
+        if(hintApplied) break;
+    }
+    createBoard(board);
+    for(let row=0;row<9;row++) {
+        for(let col=0;col<9;col++) {
+            if(board[row][col]==0) finished=false;
+        }
+    }
+    if(finished)
+    {
+        validationResult.innerText=`🎉 Congratulation You are the Winner`;
+        stopTimer();
+    }
 });
 
-function solveSudoku(board){
+function solveSudoku(solvedBoard){
     for(let row=0;row<9;row++){
         for(let col=0;col<9;col++)
         {
-            if(board[row][col]==0)
+            if(solvedBoard[row][col]==0)
             {
                 for(let num=1;num<=9;num++){
-                    if(isValid(board, row, col, num)) {
-                        board[row][col]=num;
-                        if(solveSudoku(board)) return true;
-                        board[row][col]=0;
+                    if(isValid(solvedBoard, row, col, num)) {
+                        solvedBoard[row][col]=num;
+                        if(solveSudoku(solvedBoard)) return true;
+                        solvedBoard[row][col]=0;
                     }
                 }
                 return false;
@@ -201,9 +226,10 @@ resetBtn.addEventListener('click', () => {
     validationResult.innerText='';
     stopTimer();
     board=JSON.parse(JSON.stringify(puzzle[difficultySelect.value]));
-    createBoard();
+    createBoard(board);
     secondsElapsed=0;
     updateTimer();
+    startTimer();
 });
 
 validateBtn.addEventListener('click', () => {
@@ -223,7 +249,7 @@ function validateInput() {
             board[row][col]=0;
         }
     });
-
+    let finished=true;
     for(let row=0;row<9;row++) {
         for(let col=0;col<9;col++) {
             if(board[row][col]!=0) {
@@ -235,8 +261,21 @@ function validateInput() {
             }
         }
     }
-    validationResult.innerText=`✅ Validated Successfully!`;
+    for(let row=0;row<9;row++) {
+        for(let col=0;col<9;col++) {
+            if(board[row][col]==0) finished=false;
+        }
+    }
+    if(finished)
+    {
+        createBoard(solvedBoard);
+        validationResult.innerText=`🎉 Congratulation You are the Winner`;
+        stopTimer();
+    }  
+    else{
+        validationResult.innerText=`✅ Validated Successfully!`;
+    } 
     return true;
 }
-createBoard();
+createBoard(board);
 updateTimer();
